@@ -1,0 +1,82 @@
+#include <iostream> 
+char gameBoard[3][3] = { {' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '} }; 
+void displayGameBoard() { 
+    std::cout << " 1 2 3" << std::endl; 
+        for (int i = 0; i < 3; i++) { 
+            std::cout << i+1 << " "; 
+            for (int j = 0; j < 3; j++) { 
+                std::cout << gameBoard[i][j] << ((j < 2) ? '|' : ' '); 
+            } 
+            if (i < 2) { 
+            std::cout << std::endl << " -----" << std::endl;
+            }
+        } 
+            std::cout << std::endl; 
+            } 
+void getPlayerInput(char playerSymbol, int& row, int& col) { 
+            std::cout << "Player " << playerSymbol << "'s turn. Enter row and column numbers separated by a space: "; 
+            std::cin >> row >> col; 
+            row--; 
+            col--; 
+        } 
+        void updateGameBoard(char playerSymbol, int row, int col) { 
+            if (gameBoard[row][col] == ' ') 
+            { gameBoard[row][col] = playerSymbol; 
+            } else {
+                std::cout << "Position already occupied. Enter a different position." << std::endl; 
+                 int newRow, newCol; getPlayerInput(playerSymbol, newRow, newCol); 
+                 updateGameBoard(playerSymbol, newRow, newCol); 
+                 } 
+             } 
+            bool checkWin(char playerSymbol) 
+                        {  
+                        for (int i = 0; i < 3; i++) { 
+                            if (gameBoard[i][0] == playerSymbol && gameBoard[i][1] == playerSymbol && gameBoard[i][2] == playerSymbol) { 
+                                return true; 
+                                } 
+                            } 
+                            for (int j = 0; j < 3; j++) { 
+                                if (gameBoard[0][j] == playerSymbol && gameBoard[1][j] == playerSymbol && gameBoard[2][j] == playerSymbol) { 
+                                    return true; 
+                                    } 
+                                } 
+                                if (gameBoard[0][0] == playerSymbol && gameBoard[1][1] == playerSymbol && gameBoard[2][2] == playerSymbol) { 
+                                    return true; 
+                                } 
+                                if (gameBoard[0][2] == playerSymbol && gameBoard[1][1] == playerSymbol && gameBoard[2][0] == playerSymbol) 
+                                { 
+                                    return true; } return false; 
+                                    } bool checkTie() { 
+                                     for (int i = 0; i < 3; i++) { 
+                                     for (int j = 0; j < 3; j++) { 
+                                        if (gameBoard[i][j] == ' ') { 
+                                          return false; 
+                                          } 
+                                     } 
+                                } return true; 
+                            } 
+                        void playGame() { 
+                             char playerSymbol = 'X'; 
+                            int row, col; 
+                            bool gameOver = false; 
+                            while (!gameOver) { 
+                            displayGameBoard(); 
+                            getPlayerInput(playerSymbol, row, col); 
+                            updateGameBoard(playerSymbol, row, col); 
+                             if (checkWin(playerSymbol)) {
+                            std::cout << "Player " << playerSymbol << " wins!" << std::endl; 
+                            gameOver = true; 
+                        } 
+                             else if (checkTie()) { 
+                            std::cout << "Tie game!" << std::endl; 
+                     gameOver = true; 
+                         } 
+                         playerSymbol = (playerSymbol == 'X') ? 'O' : 'X'; 
+                        } 
+            displayGameBoard();
+
+        }       
+int main() { 
+    playGame(); 
+    return 0; 
+}
